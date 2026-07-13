@@ -1,0 +1,24 @@
+services:
+  mongo:
+    image: mongo:6
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-3000}:${HTTP_PORT:-3000}"
+    environment:
+      - HTTP_HOST=0.0.0.0
+      - HTTP_PORT=${HTTP_PORT:-3000}
+      - MONGO_URL=mongodb://mongo:27017/delivery_db
+      - SESSION_SECRET=${SESSION_SECRET}
+    volumes:
+      - ./uploads:/app/uploads
+    depends_on:
+      - mongo
+
+volumes:
+  mongo_data:
