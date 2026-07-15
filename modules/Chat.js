@@ -45,6 +45,7 @@ module.exports = {
         chatEmitter.emit('newMessage', {
             chatId: chat._id,
             message,
+            users: chat.users.map(String),
         });
 
         return message;
@@ -52,6 +53,10 @@ module.exports = {
 
     subscribe(callback) {
         chatEmitter.on('newMessage', callback);
+
+        return () => {
+            chatEmitter.off('newMessage', callback);
+        };
     },
 
     async getHistory(chatId) {

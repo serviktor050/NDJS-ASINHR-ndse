@@ -13,6 +13,8 @@ COPY middleware middleware/
 COPY models models/
 COPY modules modules/
 COPY routes routes/
+COPY config config/
+COPY socket.js socket.js
 COPY index.js index.js
 
 CMD ["npm", "start"]
